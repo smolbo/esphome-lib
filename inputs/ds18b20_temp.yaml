@@ -1,0 +1,19 @@
+defaults:
+  one_wire_bus: onewire_23
+  update_interval_ds_temp: 10sec
+  name_prefix: ""
+#  address_hex:
+
+sensor:
+  - platform: dallas_temp
+    one_wire_id: ${one_wire_bus}
+    id: temp_${i}
+    name: "${name_prefix}Temp ${i}"
+    address: 0x${address_hex}
+    update_interval: ${update_interval_ds_temp}
+
+text_sensor:
+  - platform: template
+    id: temp_${i}_addr
+    name: "${name_prefix}Temp ${i} addr"
+    lambda: return {"${address_hex}"};

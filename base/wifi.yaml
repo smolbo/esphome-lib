@@ -1,0 +1,59 @@
+defaults:
+  update_interval_wifi: 10sec
+
+
+wifi:
+  domain: ".local"
+  networks:
+    - ssid: !secret wifi_test_ssid
+      password: !secret wifi_test_password
+    - ssid: !secret wifi_ssid
+      password: !secret wifi_password
+    - ssid: !secret wifi_ssid2
+      password: !secret wifi_password2
+
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+#  ap:
+#    ssid: "${device_name} Hotspot"
+#    password: !secret ap_password
+#  captive-portal:
+
+
+sensor:
+  - platform: wifi_signal # Reports the WiFi signal strength/RSSI in dB
+    name: "Net/WiFi: Signal dB"
+    id: wifi_signal_db
+    update_interval: ${update_interval_wifi}
+    entity_category: "diagnostic"
+
+  - platform: copy # Reports the WiFi signal strength in %
+    source_id: wifi_signal_db
+    name: "Net/WiFi: Signal"
+    id: wifi_signal_p
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: "diagnostic"
+    device_class: ""
+
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "Net: IP"
+      address_0:
+        name: "Net: IP 0"
+      address_1:
+        name: "Net: IP 1"
+    ssid:
+      name: "Net/WiFi: SSID"
+    bssid:
+      name: "Net/WiFi: BSSID"
+    mac_address:
+      name: "Net/WiFi: Mac"
+    scan_results:
+      name: "Net/WiFi: networks"
+    dns_address:
+      name: "Net: IP DNS"
+

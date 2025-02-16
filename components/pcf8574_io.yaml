@@ -1,0 +1,86 @@
+defaults:
+  address: '0x20'
+  i2c_bus: 'i2c_bus_fast'
+  id: "pcf8574_0"
+  mode: "<<<UNDEFINED>>>"
+  inverted: "false"
+  ch_id_pref: "${id}"
+  ch0_id: ${ch_id_pref}_0
+  ch1_id: ${ch_id_pref}_1
+  ch2_id: ${ch_id_pref}_2
+  ch3_id: ${ch_id_pref}_3
+  ch4_id: ${ch_id_pref}_4
+  ch5_id: ${ch_id_pref}_5
+  ch6_id: ${ch_id_pref}_6
+  ch7_id: ${ch_id_pref}_7
+
+
+pcf8574:
+  - id: ${id}
+    address: ${address}
+    i2c_id: ${i2c_bus}
+
+output:
+  - platform: gpio
+    id: "${ch0_id}"
+    pin:
+      pcf8574: ${id}
+      number: 0
+      mode: ${mode}
+      inverted: ${inverted}
+
+  - platform: gpio
+    id: "${ch1_id}"
+    pin:
+      pcf8574: ${id}
+      number: 1
+      mode: ${mode}
+      inverted: ${inverted}
+
+  - platform: gpio
+    id: "${ch2_id}"
+    pin:
+      pcf8574: ${id}
+      number: 2
+      mode: ${mode}
+      inverted: ${inverted}
+
+  - platform: gpio
+    id: "${ch3_id}"
+    pin:
+      pcf8574: ${id}
+      number: 3
+      mode: ${mode}
+      inverted: ${inverted}
+
+  - platform: gpio
+    id: "${ch4_id}"
+    pin:
+      pcf8574: ${id}
+      number: 4
+      mode: ${mode}
+      inverted: ${inverted}
+
+  - platform: gpio
+    id: "${ch5_id}"
+    pin:
+      pcf8574: ${id}
+      number: 5
+      mode: ${mode}
+      inverted: ${inverted}
+
+  - platform: gpio
+    id: "${ch6_id}"
+    pin:
+      pcf8574: ${id}
+      number: 6
+      mode: ${mode}
+      inverted: ${inverted}
+
+  - platform: gpio
+    id: "${ch7_id}"
+    pin:
+      pcf8574: ${id}
+      number: 7
+      mode: ${mode}
+      inverted: ${inverted}

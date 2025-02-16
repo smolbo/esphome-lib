@@ -1,0 +1,158 @@
+defaults:
+  deisplay_id: "display_lvgl_status"
+  font_primary: "font_primary"
+  font_subscript: "font_subscript"
+  font_header: "font_header"
+
+packages:
+  fonts: !include fonts.yaml
+
+globals:
+  - id: status_wifi_ui_value
+    type: std::string
+    restore_value: no
+    initial_value: " "
+
+  - id: status_oh_ui_value
+    type: std::string
+    restore_value: no
+    initial_value: " "
+
+  - id: status_clients_ui_state
+    type: std::string
+    restore_value: no
+    initial_value: " "
+
+
+script:
+  - id: script_display_status_header_update
+    then:
+      - lambda: |-
+          id(status_wifi_ui_value) = id(wifi_status_connected) ? "${mdi_wifi}" : 
+              (id(status_ui_blink_state) ? "${mdi_wifi_off}" : " ");
+          
+          id(status_oh_ui_value) = id(api_status_openhab_connected) ? "${mdi_code}" :
+              (id(status_ui_blink_state) ? "${mdi_code_off}" : " ");
+          
+          static char buf[4];
+          snprintf(buf, sizeof(buf), "%d", id(api_status_connected_clients));
+          
+          id(status_clients_ui_state) =  id(api_status_connected_clients) > 0 ? buf :
+            id(status_ui_blink_state) > 0 ? buf : " ";
+
+      - lvgl.label.update:
+          id: label_wifi_connection
+          text: !lambda return id(status_wifi_ui_value);
+
+      - lvgl.label.update:
+          id: label_api_connection
+          text: !lambda return id(status_oh_ui_value);
+
+      - lvgl.label.update:
+          id: label_api_connected_clients
+          text: !lambda return id(status_clients_ui_state);
+
+
+
+lvgl:
+  displays:
+    - ${display_id}
+  bg_color: black
+  text_font: "${font_primary}"
+  widgets:
+    - obj:
+        id: panel_status_header
+        bg_color: black
+        align: top_left
+
+        height: SIZE_CONTENT
+        width: 100%
+        y: -2
+
+        border_width: 0
+        outline_pad: 0
+        outline_width: 0
+        pad_all: 0
+        radius: 0
+        widgets:
+          #          - line:
+          #              line_width: 1
+          #              line_color: white
+          #              line_dash_gap: 4
+          #              line_dash_width: 1
+          #              points:
+          #                - 0, 13
+          #                - 128, 13
+          - line:
+              line_width: 1
+              line_color: white
+              line_dash_gap: 1
+              line_dash_width: 1
+              points:
+                - 100, 0
+                - 100, 13
+
+          - label:
+              id: label_device_name
+              align: top_left
+              width: 95
+              y: -1
+              text_align: left
+              text_font: "${font_header}"
+              long_mode: SCROLL_CIRCULAR
+              text: "${friendly_name}"
+
+
+          - obj:
+              id: panel_connection_status
+              bg_color: black
+              align: top_right
+
+
+              border_width: 0
+              border_opa: TRANSP
+              border_color: black
+              border_side: NONE
+              shadow_color: black
+              shadow_opa: TRANSP
+              shadow_width: 0
+              outline_pad: 0
+              outline_opa: TRANSP
+              outline_color: black
+              outline_width: 0
+              pad_all: 0
+              radius: 0
+              width: 26
+              height: SIZE_CONTENT
+              widgets:
+
+                - label:
+                    id: label_api_connection
+                    align_to:
+                      id: label_wifi_connection
+                      align: out_left_top
+                      x: -7
+                    text_align: right
+                    width: 8
+                    text_font: "${font_header}"
+                    text: "${mdi_code_off}"
+
+                - label:
+                    id: label_api_connected_clients
+                    align_to:
+                      id: label_wifi_connection
+                      align: out_left_bottom
+                    text_font: "${font_subscript}"
+                    text_align: left
+                    width: 6
+                    text: " "
+
+                - label:
+                    id: label_wifi_connection
+                    align: top_right
+                    text_align: right
+                    width: 8
+                    text_font: "${font_header}"
+                    text: "${mdi_wifi_off}"
+
+

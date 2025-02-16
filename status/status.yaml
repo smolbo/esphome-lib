@@ -1,0 +1,178 @@
+
+
+globals:
+  - id: api_status_connected_clients
+    type: int
+    restore_value: no
+    initial_value: '0'
+
+  - id: api_status_openhab_connected
+    type: int
+    restore_value: no
+    initial_value: '0'
+
+
+  - id: wifi_status_connected
+    type: bool
+    initial_value: "false"
+    restore_value: no
+
+
+  - id: ota_in_progress
+    type: bool
+    initial_value: "false"
+    restore_value: no
+
+
+  - id: status_has_warnings
+    type: bool
+    restore_value: no
+    initial_value: "true"
+
+  - id: status_ui_blink_state
+    type: bool
+    restore_value: no
+    initial_value: "true"
+
+
+interval:
+  - interval: 500ms
+    then:
+      - lambda: |-
+          id(status_ui_blink_state) = !id(status_ui_blink_state);
+      - if:
+          condition:
+            lambda: 'return id(status_has_warnings);'
+          then:
+            - script.execute: script_status_update
+
+#          return id(status_has_warnings) = !(id(wifi_status_connected) && id(api_status_openhab_connected > 0));
+
+
+script:
+  - id: script_status_update
+    then:
+      - lambda: |-
+          id(status_has_warnings) = 
+            !id(wifi_status_connected) || 
+            !(id(api_status_openhab_connected) > 0) || 
+            id(ota_in_progress);
+  
+#          id(status_wifi_ui_value) = id(wifi_status_connected) ? "${mdi_wifi}" :
+#              (id(display_blink_state) ? "${mdi_wifi_off}" : " ");
+#
+#          id(status_oh_ui_value) = id(api_status_openhab_connected) ? "${mdi_code}" :
+#              (id(display_blink_state) ? "${mdi_code_off}" : " ");
+#
+#          static char buf[4];
+#          snprintf(buf, sizeof(buf), "%d", id(api_status_connected_clients));
+#
+#          id(status_clients_ui_state) =  id(api_status_connected_clients) > 0 ? buf :
+#            id(display_blink_state) > 0 ? buf : " ";
+
+#          id(led_green_0).turn_on()
+#            .set_state(!id(status_has_warnings))
+#            .perform();
+#
+#          id(led_yellow_3).turn_on()
+#            .set_state(!id(wifi_status_connected) && id(status_ui_blink_state))
+#            .perform();
+#
+#          id(led_yellow_2).turn_on()
+#            .set_state(!id(api_status_openhab_connected) && id(status_ui_blink_state))
+#            .perform();
+#
+#          id(led_red_4).turn_on()
+#            .set_state(id(ota_in_progress))
+#            .perform();
+
+      - lambda: |-
+            script_display_status_header_update->execute(); // needs kind of ifdef for script presense
+
+      - lambda: |-
+          script_ui_led_status_update->execute();
+
+#      - lvgl.label.update:
+#          id: label_wifi_connection
+#          text: !lambda return id(status_wifi_ui_value);
+#
+#      - lvgl.label.update:
+#          id: label_api_connection
+#          text: !lambda return id(status_oh_ui_value);
+#
+#      - lvgl.label.update:
+#          id: label_api_connected_clients
+#          text: !lambda return id(status_clients_ui_state);
+
+
+ota:
+  on_begin:
+    then:
+      - logger.log: "OTA begin"
+      - lambda: 'id(ota_in_progress) = true;'
+      - script.execute: script_status_update
+#      - delay: 1100ms
+
+  on_end:
+    then:
+      - logger.log: "OTA end"
+      - lambda: 'id(ota_in_progress) = false;'
+      - script.execute: script_status_update
+#      - delay: 1100ms
+
+
+wifi:
+  on_connect:
+    - lambda: 'id(wifi_status_connected) = true;'
+    - script.execute: script_status_update
+
+  on_disconnect:
+    - lambda: 'id(wifi_status_connected) = false;'
+    - script.execute: script_status_update
+
+
+api:
+  on_client_connected:
+    - lambda: |-
+        id(api_status_connected_clients) += 1;
+        std::string cli_lower;
+        std::for_each(client_info.begin(), client_info.end(), 
+                    [&](const char& c) {
+                      cli_lower.push_back(std::tolower(c));
+                    }
+        );
+        if(cli_lower.find("openhab") != std::string::npos) {
+          id(api_status_openhab_connected) += 1;
+        }
+        
+        ESP_LOGD("client", "client connected: clients %d [oh: %d], %s", 
+              id(api_status_connected_clients), 
+              id(api_status_openhab_connected), 
+              client_info.c_str()
+        );   
+
+    - script.execute: script_status_update
+
+
+  on_client_disconnected:
+    - lambda: |-
+        if(id(api_status_connected_clients) > 0) {
+          id(api_status_connected_clients) -= 1;
+        }
+        std::string cli_lower;
+        std::for_each(client_info.begin(), client_info.end(), 
+                    [&](const char& c) {
+                      cli_lower.push_back(std::tolower(c));
+                    }
+        );
+        if(cli_lower.find("openhab") != std::string::npos  && id(api_status_openhab_connected) > 0) {
+          id(api_status_openhab_connected) -= 1;
+        }
+        
+        ESP_LOGD("client", "client DISconnected: clients %d [oh: %d], %s", 
+              id(api_status_connected_clients), 
+              id(api_status_openhab_connected), 
+              client_info.c_str()
+        );   
+
+    - script.execute: script_status_update

@@ -1,0 +1,64 @@
+defaults:
+  id_prefix: "fan"
+  name: "Fan ${id_prefix}"
+  ctrl_pin: "GPIO26"
+  sense_pin: "GPIO14"
+  min_power: "10%"
+  ui_update_script: "status_fans_update"
+
+#packages:
+#  lvgl_status_fans: !include
+#    file: ../../common/ui/fans_status.yaml
+
+globals:
+  - id: "${id_prefix}_setpoint_var"
+    type: float
+    initial_value: '0.0'
+    restore_value: no
+
+
+output:
+  - platform: ledc
+    pin: ${ctrl_pin}
+    id: ${id_prefix}_pwm
+    frequency: "25000 Hz"
+    min_power: ${min_power}
+    max_power: 100%
+    zero_means_zero: true
+
+number:
+  - platform: template
+    name: "${name}"
+    id: ${id_prefix}_set_pwm
+    min_value: 0.0
+    max_value: 1.0
+    step: 0.0001
+    set_action:
+      then:
+        - output.set_level:
+            id: ${id_prefix}_pwm
+            level: !lambda "return x;"
+        - globals.set:
+            id: "${id_prefix}_setpoint_var"
+            value: !lambda "return x;"
+        - script.execute: "${ui_update_script}"
+
+sensor:
+  - platform: pulse_meter
+    id: ${id_prefix}_actual_rpm
+    name: "${name} rpm"
+    unit_of_measurement: "RPM"
+    accuracy_decimals: 0
+    timeout: 1s
+    pin:
+      number: ${sense_pin}
+      inverted: true
+      mode:
+        input: true
+    #        pullup: true
+    filters:
+      - multiply: 0.5
+      - throttle_average: 1s
+    on_value:
+      then:
+        - script.execute: "${ui_update_script}"

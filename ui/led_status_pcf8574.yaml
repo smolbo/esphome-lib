@@ -1,0 +1,90 @@
+defaults:
+  address: '0x20'
+  i2c_bus: 'i2c_bus_ui'
+
+packages:
+  leds_outputs: !include
+    file: ../../lib/components/pcf8574_io.yaml
+    vars:
+      id: "led_outputs"
+      i2c_bus: "${i2c_bus}"
+      address: "${address}"
+      inverted: true
+      mode: "OUTPUT"
+      ch_id_pref: "led_out"
+
+
+esphome:
+  on_boot:
+    - priority: 600
+      then:
+        lambda: 'id(led_green_1).turn_on().set_state(true).perform();'
+
+  on_shutdown:
+    - priority: 200
+      then:
+        lambda: 'id(led_green_1).turn_off().set_state(false).perform();'
+
+
+script:
+  - id: script_ui_led_status_update
+    then:
+      lambda: |-
+        id(led_green_0).turn_on()
+          .set_state(!id(status_has_warnings))
+          .perform();
+        
+        id(led_yellow_3).turn_on()
+          .set_state(!id(wifi_status_connected) && id(status_ui_blink_state))
+          .perform();
+        
+        id(led_yellow_2).turn_on()
+          .set_state(!id(api_status_openhab_connected) && id(status_ui_blink_state))
+          .perform();
+        
+        id(led_red_4).turn_on()
+          .set_state(id(ota_in_progress))
+          .perform();
+    
+
+light:
+  - platform: binary
+    name: "LED-0 GREEN"
+    id: led_green_0
+    output: led_out_0
+
+  - platform: binary
+    name: "LED-1 GREEN"
+    id: led_green_1
+    output: led_out_1
+
+  - platform: binary
+    name: "LED-2 YELLOW"
+    id: led_yellow_2
+    output: led_out_2
+
+  - platform: binary
+    name: "LED-3 YELLOW"
+    id: led_yellow_3
+    output: led_out_3
+
+  - platform: binary
+    name: "LED-4 RED"
+    id: led_red_4
+    output: led_out_4
+
+  - platform: binary
+    name: "LED-5 RED"
+    id: led_red_5
+    output: led_out_5
+
+  - platform: binary
+    name: "LED-6 BLUE"
+    id: led_blue_6
+    output: led_out_6
+
+  - platform: binary
+    name: "LED-7 BLUE"
+    id: led_blue_0
+    output: led_out_7
+

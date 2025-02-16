@@ -1,0 +1,84 @@
+defaults:
+  font_primary: "font_primary"
+  font_subscript: "font_subscript"
+
+
+packages:
+  fan_cold_0_scr: !include
+    file: fan_status_script.yaml
+    vars:
+      obj_id: fan_cold_0
+
+  fan_cold_1_scr: !include
+    file: fan_status_script.yaml
+    vars:
+      obj_id: fan_cold_1
+
+  fan_hot_0_scr: !include
+    file: fan_status_script.yaml
+    vars:
+      obj_id: fan_hot_0
+
+  fan_hot_1_scr: !include
+    file: fan_status_script.yaml
+    vars:
+      obj_id: fan_hot_1
+
+lvgl:
+  widgets:
+    - obj:
+        id: panel_fan_status
+        width: SIZE_CONTENT
+        height: SIZE_CONTENT
+        align_to:
+          id: panel_status_header
+          align: out_bottom_left
+        bg_color: black
+        border_width: 0
+        border_color: black
+        shadow_width: 0
+        outline_pad: 0
+        outline_width: 0
+        pad_all: 0
+        radius: 0
+
+        widgets:
+          - obj: !include
+              file: fan_status_lvgl.yaml
+              vars:
+                obj_id: fan_cold_0
+                align_to_id: panel_fan_status
+                align_to_align: TOP_LEFT
+
+          - obj: !include
+              file: fan_status_lvgl.yaml
+              vars:
+                obj_id: fan_cold_1
+                align_to_id: lvgl_obj_fan_cold_0
+                align_to_align: out_bottom_left
+
+          - obj: !include
+              file: fan_status_lvgl.yaml
+              vars:
+                obj_id: fan_hot_0
+                align_to_id: lvgl_obj_fan_cold_1
+                align_to_align: out_bottom_left
+
+          - obj: !include
+              file: fan_status_lvgl.yaml
+              vars:
+                obj_id: fan_hot_1
+                align_to_id: lvgl_obj_fan_hot_0
+                align_to_align: out_bottom_left
+
+
+
+
+
+script:
+  - id: script_fans_status
+    then:
+      - script.execute: script_fan_cold_0_status_update
+      - script.execute: script_fan_cold_1_status_update
+      - script.execute: script_fan_hot_0_status_update
+      - script.execute: script_fan_hot_1_status_update

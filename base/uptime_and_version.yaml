@@ -1,0 +1,14 @@
+defaults:
+  update_interval_uptime: 10sec
+
+
+sensor:
+  - platform: uptime
+    id: dev_uptime
+    name: "Dev: Uptime"
+    update_interval: ${update_interval_uptime}
+
+text_sensor:
+  - platform: version
+    name: "Dev: ESPHome ver, dev compile time"
+    id: esphome_version

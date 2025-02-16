@@ -1,0 +1,13 @@
+defaults:
+  api_no_connection_reboot: "5min"
+
+
+# Enable Home Assistant API
+api:
+  #  password: !secret api_password
+  encryption:
+    key: !secret api_key
+  reboot_timeout: ${api_no_connection_reboot}
+
+
+

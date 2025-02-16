@@ -1,0 +1,16 @@
+defaults:
+  bus_addr: "48"
+  soil_bus: "soil_bus_${bus_addr}"
+  soil_humidity_gain: "4.096"
+  update_interval_soil_humidity: 10sec
+  channel: "0"
+  name_prefix: ""
+
+sensor:
+  - platform: ads1115
+    ads1115_id: ${soil_bus}
+    gain: ${soil_humidity_gain}
+    multiplexer: A${channel}_GND
+    name: "${name_prefix}Soil humidity ${bus_addr}/${channel}"
+    id: ${soil_bus}_${channel}
+    update_interval: ${update_interval_soil_humidity}

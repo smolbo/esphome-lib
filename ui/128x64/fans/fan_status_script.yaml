@@ -1,0 +1,17 @@
+
+
+script:
+  - id: script_${obj_id}_status_update
+    then:
+      - lvgl.label.update:
+          id: label_${obj_id}_setpoint
+          text:
+            format: "%3.0f%%"
+            args: ['id(${obj_id}_setpoint_var) * 100']
+
+
+      - lvgl.label.update:
+          id: label_${obj_id}_rpm
+          text:
+            format: "%4.0f"
+            args: ['id(${obj_id}_actual_rpm).get_state()']

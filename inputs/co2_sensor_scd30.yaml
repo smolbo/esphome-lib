@@ -1,0 +1,25 @@
+defaults:
+  co2_i2c_bus: i2c_bus_0
+  update_interval_rht_co2: 10sec
+  co2_address: "0x61"
+  name_prefix: ""
+
+sensor:
+  - platform: scd30
+    id: rhtco2
+    co2:
+      id: air_co2
+      name: "${name_prefix}Air CO2"
+      accuracy_decimals: 1
+    temperature:
+      id: air_temperature
+      name: "${name_prefix}Air Temperature"
+      accuracy_decimals: 2
+    humidity:
+      id: air_humidity
+      name: "${name_prefix}Air Humidity"
+      accuracy_decimals: 1
+  #    temperature_offset: 1.5 °C
+    address: ${co2_address}
+    i2c_id: ${co2_i2c_bus}
+    update_interval: ${update_interval_rht_co2}

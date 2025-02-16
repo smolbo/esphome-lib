@@ -1,0 +1,15 @@
+defaults:
+  i2c_bus_addr_hex: "48"
+  i2c_bus_id: "i2c_bus_0"
+
+packages:
+  channel0: !include {file: ads1115_channel.yaml, vars: {bus_addr: "${i2c_bus_addr_hex}", channel: "0"}}
+  channel1: !include {file: ads1115_channel.yaml, vars: {bus_addr: "${i2c_bus_addr_hex}", channel: "1"}}
+  channel2: !include {file: ads1115_channel.yaml, vars: {bus_addr: "${i2c_bus_addr_hex}", channel: "2"}}
+  channel3: !include {file: ads1115_channel.yaml, vars: {bus_addr: "${i2c_bus_addr_hex}", channel: "3"}}
+
+
+ads1115:
+  - address: 0x${i2c_bus_addr_hex}
+    id: soil_bus_${i2c_bus_addr_hex}
+    i2c_id: ${i2c_bus_id}

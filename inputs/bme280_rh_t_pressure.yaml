@@ -1,0 +1,22 @@
+defaults:
+  id_prefix: "bme280"
+  name_prefix: "BME280"
+  i2c_bus: "i2c_bus_sensors"
+  i2c_addr: "0x77"
+  update_interval: "5s"
+
+
+sensor:
+  - platform: bme280_i2c
+    temperature:
+      name: "${name_prefix} Temperature"
+      id: ${id_prefix}_temperature
+    pressure:
+      name: "${name_prefix} Pressure"
+      id: ${id_prefix}_pressure
+    humidity:
+      name: "${name_prefix} Relative Humidity"
+      id: ${id_prefix}_humidity
+    address: ${i2c_addr}
+    i2c_id: ${i2c_bus}
+    update_interval: ${update_interval}

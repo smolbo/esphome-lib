@@ -1,0 +1,39 @@
+defaults:
+  size_header: "10"
+  size_primary: "10"
+  size_subscript: "6"
+  family: "roboto"
+
+substitutions:
+  mdi_link:      "\U0000e157" # mdi-link
+  mdi_link_off:  "\U0000e16f" # mdi-link-off
+  mdi_code:      "\U0000e86f" # mdi-code
+  mdi_code_off:  "\U0000e4f3" # mdi-code-off
+  mdi_wifi:      "\U0000e63e" # mdi-wifi
+  mdi_wifi_off:  "\U0000e648" # mdi-wifi-off
+  mdi_wifi_find: "\U0000eb31" # mdi-wifi-find
+  mdi_wifi_bad:  "\U0000f063" # mdi-wifi-bad
+
+
+font:
+  - file: "gfonts://Roboto"
+    id: font_subscript
+    size: "${size_subscript}"
+  - file: "gfonts://Roboto"
+    id: font_header
+    size: "${size_header}"
+    extras:
+      - file: "gfonts://Material+Symbols+Outlined"
+        glyphs: [
+          "${mdi_link}", # mdi-link
+          "${mdi_link_off}", # mdi-link-off
+          "${mdi_code}", # mdi-code
+          "${mdi_code_off}", # mdi-code-off
+          "${mdi_wifi}", # mdi-wifi
+          "${mdi_wifi_off}", # mdi-wifi-off
+          "${mdi_wifi_find}", # mdi-wifi-find
+          "${mdi_wifi_bad}" # mdi-wifi-bad
+        ]
+  - file: "gfonts://Roboto"
+    id: font_primary
+    size: "${size_primary}"
