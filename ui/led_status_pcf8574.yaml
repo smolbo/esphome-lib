@@ -61,21 +61,25 @@ light:
   - platform: binary
     name: "LED-2 YELLOW"
     id: led_yellow_2
+    internal: true
     output: led_out_2
 
   - platform: binary
     name: "LED-3 YELLOW"
     id: led_yellow_3
+    internal: true
     output: led_out_3
 
   - platform: binary
     name: "LED-4 RED"
     id: led_red_4
+    internal: true
     output: led_out_4
 
   - platform: binary
     name: "LED-5 RED"
     id: led_red_5
+    internal: true
     output: led_out_5
 
   - platform: binary
