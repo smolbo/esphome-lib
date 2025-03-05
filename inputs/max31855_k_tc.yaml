@@ -1,0 +1,18 @@
+defaults:
+  spi_id: bus_spi_therm
+  update_interval: 1s
+
+sensor:
+  - platform: max31855
+    id: ${id}
+    reference_temperature:
+      id: ${id}_ref
+      name: "${name} ref temp"
+    spi_id: ${spi_bus}
+    name: "${name}"
+    cs_pin: ${cs_pin}
+    update_interval: ${update_interval}
+    filters:
+      - sliding_window_moving_average:
+          window_size: 20
+          send_every: 10

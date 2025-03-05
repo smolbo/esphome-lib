@@ -8,7 +8,7 @@ display:
   - platform: ssd1306_i2c
     id: ${display_id}
     model: "SSD1306 128x64"
-    i2c_id: ${i2c_bus}
     address: 0x3c
+    i2c_id: ${i2c_bus}
     auto_clear_enabled: false
     update_interval: 200ms

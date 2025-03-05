@@ -52,11 +52,13 @@ light:
     name: "LED-0 GREEN"
     id: led_green_0
     output: led_out_0
+    internal: true
 
   - platform: binary
     name: "LED-1 GREEN"
     id: led_green_1
     output: led_out_1
+    internal: true
 
   - platform: binary
     name: "LED-2 YELLOW"

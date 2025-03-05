@@ -155,4 +155,15 @@ lvgl:
                     text_font: "${font_header}"
                     text: "${mdi_wifi_off}"
 
+wifi:
+  on_connect:
+    - lvgl.label.update:
+        id: label_device_name
+        text: !lambda |-
+          return "${friendly_name} @ " + wifi_wificomponent_id->wifi_ssid();
 
+  on_disconnect:
+    - lvgl.label.update:
+        id: label_device_name
+        text: !lambda |-
+          return "${friendly_name} @ ";
