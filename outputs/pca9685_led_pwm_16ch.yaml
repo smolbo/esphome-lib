@@ -31,12 +31,12 @@ output:
     pca9685_id: '${id_prefix}'
     channel: 3
     id: ${id_prefix}_out_3
+    
 
   - platform: pca9685
     pca9685_id: '${id_prefix}'
     channel: 4
     id: ${id_prefix}_out_4
-
 
   - platform: pca9685
     pca9685_id: '${id_prefix}'
@@ -52,7 +52,8 @@ output:
     pca9685_id: '${id_prefix}'
     channel: 7
     id: ${id_prefix}_out_7
-
+    
+    
   - platform: pca9685
     pca9685_id: '${id_prefix}'
     channel: 8
@@ -63,7 +64,6 @@ output:
     channel: 9
     id: ${id_prefix}_out_9
 
-
   - platform: pca9685
     pca9685_id: '${id_prefix}'
     channel: 10
@@ -73,6 +73,7 @@ output:
     pca9685_id: '${id_prefix}'
     channel: 11
     id: ${id_prefix}_out_11
+    
 
   - platform: pca9685
     pca9685_id: '${id_prefix}'
@@ -88,7 +89,6 @@ output:
     pca9685_id: '${id_prefix}'
     channel: 14
     id: ${id_prefix}_out_14
-
 
   - platform: pca9685
     pca9685_id: '${id_prefix}'

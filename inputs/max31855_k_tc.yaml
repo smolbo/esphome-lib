@@ -1,6 +1,7 @@
 defaults:
   spi_id: bus_spi_therm
   update_interval: 1s
+  on_value_script: "default_on_value_script"
 
 sensor:
   - platform: max31855
@@ -16,3 +17,6 @@ sensor:
       - sliding_window_moving_average:
           window_size: 20
           send_every: 10
+    on_value:
+      then:
+        - script.execute: "${on_value_script}"

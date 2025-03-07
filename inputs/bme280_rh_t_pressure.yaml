@@ -4,6 +4,8 @@ defaults:
   i2c_bus: "i2c_bus_sensors"
   i2c_addr: "0x77"
   update_interval: "5s"
+  on_value_script: "default_on_value_script"
+
 
 
 sensor:
@@ -20,3 +22,6 @@ sensor:
     address: ${i2c_addr}
     i2c_id: ${i2c_bus}
     update_interval: ${update_interval}
+    on_value:
+      then:
+        - script.execute: "${on_value_script}"

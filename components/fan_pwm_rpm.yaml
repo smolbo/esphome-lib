@@ -4,7 +4,7 @@ defaults:
   ctrl_pin: "GPIO26"
   sense_pin: "GPIO14"
   min_power: "10%"
-  ui_update_script: "status_fans_update"
+  ui_update_script: "default_on_value_script"
 
 #packages:
 #  lvgl_status_fans: !include

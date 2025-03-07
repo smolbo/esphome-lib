@@ -11,4 +11,4 @@ display:
     address: 0x3c
     i2c_id: ${i2c_bus}
     auto_clear_enabled: false
-    update_interval: 200ms
+    update_interval: 50ms
