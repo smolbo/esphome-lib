@@ -1,3 +1,6 @@
 # Enable logging
+defaults:
+  lib_log_level: "INFO"
+
 logger:
-  level: DEBUG
+  level: ${lib_log_level}

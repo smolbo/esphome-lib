@@ -13,15 +13,21 @@ sensor:
     temperature:
       name: "${name_prefix} Temperature"
       id: ${id_prefix}_temperature
+      on_value:
+        then:
+          - script.execute: "${on_value_script}"
     pressure:
       name: "${name_prefix} Pressure"
       id: ${id_prefix}_pressure
+      on_value:
+        then:
+          - script.execute: "${on_value_script}"
     humidity:
       name: "${name_prefix} Relative Humidity"
       id: ${id_prefix}_humidity
+      on_value:
+        then:
+          - script.execute: "${on_value_script}"
     address: ${i2c_addr}
     i2c_id: ${i2c_bus}
     update_interval: ${update_interval}
-    on_value:
-      then:
-        - script.execute: "${on_value_script}"

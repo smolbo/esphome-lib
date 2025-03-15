@@ -3,12 +3,13 @@ defaults:
   address: "0x3c"
   update_interval: "200ms"
   i2c_bus: "i2c_fast"
+  resolution: "128x64"
 
 display:
   - platform: ssd1306_i2c
     id: ${display_id}
-    model: "SSD1306 128x64"
+    model: "SSD1306 ${resolution}"
     address: 0x3c
     i2c_id: ${i2c_bus}
     auto_clear_enabled: false
-    update_interval: 50ms
+    update_interval: ${update_interval}
