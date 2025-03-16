@@ -1,6 +1,6 @@
 defaults:
   id_prefix: "bme280"
-  name_prefix: "BME280"
+#  name_prefix: "BME280"
   i2c_bus: "i2c_bus_sensors"
   i2c_addr: "0x77"
   update_interval: "5s"
@@ -11,20 +11,20 @@ defaults:
 sensor:
   - platform: bme280_i2c
     temperature:
-      name: "${name_prefix} Temperature"
       id: ${id_prefix}_temperature
+      name: ${id_prefix}_temperature
       on_value:
         then:
           - script.execute: "${on_value_script}"
     pressure:
-      name: "${name_prefix} Pressure"
       id: ${id_prefix}_pressure
+      name: ${id_prefix}_pressure
       on_value:
         then:
           - script.execute: "${on_value_script}"
     humidity:
-      name: "${name_prefix} Relative Humidity"
       id: ${id_prefix}_humidity
+      name: ${id_prefix}_humidity
       on_value:
         then:
           - script.execute: "${on_value_script}"

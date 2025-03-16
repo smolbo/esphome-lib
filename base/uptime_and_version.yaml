@@ -5,10 +5,10 @@ defaults:
 sensor:
   - platform: uptime
     id: dev_uptime
-    name: "Dev: Uptime"
+    name: dev_uptime
     update_interval: ${update_interval_uptime}
 
 text_sensor:
   - platform: version
-    name: "Dev: ESPHome ver, dev compile time"
-    id: esphome_version
+    id: dev_version
+    name: dev_version

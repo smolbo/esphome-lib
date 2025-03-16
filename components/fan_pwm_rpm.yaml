@@ -1,6 +1,5 @@
 defaults:
   id_prefix: "fan"
-  name: "Fan ${id_prefix}"
   ctrl_pin: "GPIO26"
   sense_pin: "GPIO14"
   min_power: "10%"
@@ -11,7 +10,7 @@ defaults:
 #    file: ../../common/ui/fans_status.yaml
 
 globals:
-  - id: "${id_prefix}_setpoint_var"
+  - id: "globals_${id_prefix}_pwm_setpoint"
     type: float
     initial_value: '0.0'
     restore_value: no
@@ -20,7 +19,7 @@ globals:
 output:
   - platform: ledc
     pin: ${ctrl_pin}
-    id: ${id_prefix}_pwm
+    id: output_${id_prefix}_pwm
     frequency: "25000 Hz"
     min_power: ${min_power}
     max_power: 100%
@@ -28,25 +27,25 @@ output:
 
 number:
   - platform: template
-    name: "${name}"
-    id: ${id_prefix}_set_pwm
+    id: number_${id_prefix}_pwm
+    name: ${id_prefix}_pwm
     min_value: 0.0
     max_value: 1.0
     step: 0.0001
     set_action:
       then:
         - output.set_level:
-            id: ${id_prefix}_pwm
+            id: output_${id_prefix}_pwm
             level: !lambda "return x;"
         - globals.set:
-            id: "${id_prefix}_setpoint_var"
+            id: "globals_${id_prefix}_pwm_setpoint"
             value: !lambda "return x;"
         - script.execute: "${ui_update_script}"
 
 sensor:
   - platform: pulse_meter
-    id: ${id_prefix}_actual_rpm
-    name: "${name} rpm"
+    id: ${id_prefix}_rpm
+    name: ${id_prefix}_rpm
     unit_of_measurement: "RPM"
     accuracy_decimals: 0
     timeout: 1s

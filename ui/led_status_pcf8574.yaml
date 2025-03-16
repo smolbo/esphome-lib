@@ -49,46 +49,46 @@ script:
 
 light:
   - platform: binary
-    name: "LED-0 GREEN"
     id: led_green_0
+    name: led_green_0
     output: led_out_0
     internal: true
 
   - platform: binary
-    name: "LED-1 GREEN"
     id: led_green_1
+    name: led_yellow_2
     output: led_out_1
     internal: true
 
   - platform: binary
-    name: "LED-2 YELLOW"
     id: led_yellow_2
+    name: led_yellow_2
     internal: true
     output: led_out_2
 
   - platform: binary
-    name: "LED-3 YELLOW"
     id: led_yellow_3
+    name: led_yellow_3
     internal: true
     output: led_out_3
 
   - platform: binary
-    name: "LED-4 RED"
     id: led_red_4
+    name: led_red_4
     output: led_out_4
 
   - platform: binary
-    name: "LED-5 RED"
     id: led_red_5
+    name: led_red_5
     output: led_out_5
 
   - platform: binary
-    name: "LED-6 BLUE"
     id: led_blue_6
+    name: led_blue_6
     output: led_out_6
 
   - platform: binary
-    name: "LED-7 BLUE"
     id: led_blue_0
+    name: led_blue_0
     output: led_out_7
 

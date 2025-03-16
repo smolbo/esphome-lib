@@ -22,15 +22,15 @@ wifi:
 
 sensor:
   - platform: wifi_signal # Reports the WiFi signal strength/RSSI in dB
-    name: "Net/WiFi: Signal dB"
     id: wifi_signal_db
+    name: wifi_signal_db
     update_interval: ${update_interval_wifi}
     entity_category: "diagnostic"
 
   - platform: copy # Reports the WiFi signal strength in %
     source_id: wifi_signal_db
-    name: "Net/WiFi: Signal"
-    id: wifi_signal_p
+    id: wifi_signal_percent
+    name: wifi_signal_percent
     filters:
       - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
     unit_of_measurement: "%"
@@ -41,19 +41,27 @@ sensor:
 text_sensor:
   - platform: wifi_info
     ip_address:
-      name: "Net: IP"
+      id: net_ip
+      name: net_ip
       address_0:
-        name: "Net: IP 0"
+        id: net_ip_0
+        name: net_ip_0
       address_1:
-        name: "Net: IP 1"
+        id: net_ip_1
+        name: net_ip_1
     ssid:
-      name: "Net/WiFi: SSID"
+      id: net_wifi_ssid
+      name: net_wifi_ssid
     bssid:
-      name: "Net/WiFi: BSSID"
+      id: net_wifi_bssid
+      name: net_wifi_bssid
     mac_address:
-      name: "Net/WiFi: Mac"
+      id: net_wifi_mac
+      name: net_wifi_mac
     scan_results:
-      name: "Net/WiFi: networks"
+      id: net_wifi_networks
+      name: net_wifi_networks
     dns_address:
-      name: "Net: IP DNS"
+      id: net_ip_dns
+      name: net_ip_dns
 
