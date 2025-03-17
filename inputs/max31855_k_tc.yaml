@@ -1,5 +1,6 @@
 defaults:
   spi_id: bus_spi_therm
+  data_rate: "200kHz"
   update_interval: 1s
   on_value_script: "default_on_value_script"
 
@@ -9,9 +10,11 @@ sensor:
     name: ${id}
     reference_temperature:
       id: ${id}_ref
-      name: ${id}_ref
+      internal: false
     spi_id: ${spi_bus}
     cs_pin: ${cs_pin}
+    data_rate: ${data_rate}
+    internal: false
     update_interval: ${update_interval}
     filters:
       - sliding_window_moving_average:

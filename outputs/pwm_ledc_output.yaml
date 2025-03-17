@@ -1,5 +1,4 @@
 defaults:
-  name: "PWM"
   id_prefix: "pwm"
   pin: "error pin"
   frequency: "25000 Hz"
@@ -19,10 +18,10 @@ output:
 number:
   - platform: template
     id: ${id_prefix}_pwm
-    name: ${id_prefix}_pwm
     step: 0.0001
     min_value: 0.0
     max_value: 1.0
+    internal: false
     set_action:
       then:
         - output.set_level:
