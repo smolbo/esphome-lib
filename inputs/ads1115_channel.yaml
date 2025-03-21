@@ -11,6 +11,6 @@ sensor:
     ads1115_id: ${soil_bus}
     gain: ${soil_humidity_gain}
     multiplexer: A${channel}_GND
-    name: "${name_prefix}Soil humidity ${bus_addr}/${channel}"
+    name: ${soil_bus}_${channel}
     id: ${soil_bus}_${channel}
     update_interval: ${update_interval_soil_humidity}

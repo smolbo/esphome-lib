@@ -18,10 +18,11 @@ output:
 number:
   - platform: template
     id: ${id_prefix}_pwm
+    name: ${id_prefix}_pwm
+    internal: false
     step: 0.0001
     min_value: 0.0
     max_value: 1.0
-    internal: false
     set_action:
       then:
         - output.set_level:
@@ -33,3 +34,12 @@ number:
             value: !lambda "return x;"
 
         - script.execute: default_on_value_script
+
+sensor:
+  - platform: template
+    id: ${id_prefix}_pwm_state
+    name: ${id_prefix}_pwm_state
+    internal: false
+    update_interval: 5s
+    lambda: |-
+      return id(globals_${id_prefix}_setpoint);

@@ -8,13 +8,14 @@ sensor:
   - platform: max31855
     id: ${id}
     name: ${id}
+    internal: false
     reference_temperature:
       id: ${id}_ref
+      name: ${id}_ref
       internal: false
     spi_id: ${spi_bus}
     cs_pin: ${cs_pin}
     data_rate: ${data_rate}
-    internal: false
     update_interval: ${update_interval}
     filters:
       - sliding_window_moving_average:
