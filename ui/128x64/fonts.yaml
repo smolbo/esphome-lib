@@ -13,6 +13,7 @@ substitutions:
   mdi_wifi_off:   "\U0000e648" # mdi-wifi-off
   mdi_wifi_find:  "\U0000eb31" # mdi-wifi-find
   mdi_wifi_bad:   "\U0000f063" # mdi-wifi-bad
+  mdi_led:        "\U000F05A9" # mdi-led
   degree_celsius: "\U00002103" # degree celsius symbol ℃
   reference_mark: "\U0000203b"
 
@@ -34,7 +35,8 @@ font:
           "${mdi_wifi}", # mdi-wifi
           "${mdi_wifi_off}", # mdi-wifi-off
           "${mdi_wifi_find}", # mdi-wifi-find
-          "${mdi_wifi_bad}" # mdi-wifi-bad
+          "${mdi_wifi_bad}", # mdi-wifi-bad
+          "${mdi_led}"
         ]
 
   - file: "gfonts://Roboto"
