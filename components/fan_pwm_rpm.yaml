@@ -46,9 +46,12 @@ sensor:
   - platform: pulse_meter
     id: ${id_prefix}_rpm
     name: ${id_prefix}_rpm
+    #    device_class: temperature
+    state_class: measurement
     unit_of_measurement: "RPM"
     accuracy_decimals: 0
     timeout: 1s
+    internal_filter: 10ms
     pin:
       number: ${sense_pin}
       inverted: true
@@ -56,8 +59,10 @@ sensor:
         input: true
     #        pullup: true
     filters:
+      - filter_out: NaN
       - multiply: 0.5
-      - throttle_average: 1s
+      - throttle_average: 2s
+
     on_value:
       then:
         - script.execute: "${ui_update_script}"

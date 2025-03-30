@@ -1,6 +1,6 @@
 defaults:
   one_wire_bus: onewire_23
-  update_interval_ds_temp: 10sec
+  update_interval_ds_temp: 2sec
   id_prefix: ""
   i: ""
 #  address_hex:
@@ -11,7 +11,15 @@ sensor:
     id: ${id_prefix}${i}
     name: ${id_prefix}${i}
     address: 0x${address_hex}
+    device_class: temperature
+    state_class: measurement
     update_interval: ${update_interval_ds_temp}
+    filters:
+      - filter_out: NaN
+      - quantile:
+          send_every: 1
+          window_size: 5
+      - throttle_average: 10s
 
 text_sensor:
   - platform: template
