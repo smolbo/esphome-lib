@@ -1,4 +1,5 @@
 ota:
-  password: !secret ota_password
   platform: esphome
+  password: !secret ota_password
+  id: ota_esphome_id
 
