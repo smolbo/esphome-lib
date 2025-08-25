@@ -5,6 +5,7 @@ defaults:
   update_interval_soil_humidity: 10sec
   channel: "0"
   name_prefix: ""
+  on_value_script: "default_on_value_script"
 
 sensor:
   - platform: ads1115
@@ -14,3 +15,8 @@ sensor:
     name: ${soil_bus}_${channel}
     id: ${soil_bus}_${channel}
     update_interval: ${update_interval_soil_humidity}
+    on_value:
+      then:
+          - delay: 100ms
+          - script.execute: "${on_value_script}"
+

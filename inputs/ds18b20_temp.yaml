@@ -4,6 +4,7 @@ defaults:
   id_prefix: ""
   i: ""
 #  address_hex:
+  on_value_script: "default_on_value_script"
 
 sensor:
   - platform: dallas_temp
@@ -14,6 +15,11 @@ sensor:
     device_class: temperature
     state_class: measurement
     update_interval: ${update_interval_ds_temp}
+    on_value:
+      then:
+        - delay: 100ms
+        - script.execute: "${on_value_script}"
+
     filters:
       - filter_out: NaN
       - quantile:
